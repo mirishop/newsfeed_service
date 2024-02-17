@@ -4,7 +4,6 @@ import com.hh.mirishop.newsfeed.common.dto.BaseResponse;
 import com.hh.mirishop.newsfeed.follow.dto.FollowRequest;
 import com.hh.mirishop.newsfeed.follow.service.FollowService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,8 +24,7 @@ public class FollowController {
                                                      @RequestParam(name = "member") Long currentMemberNumber) {
         followService.follow(followRequest, currentMemberNumber);
 
-        return new ResponseEntity<>(BaseResponse.of("팔로우 추가", true, null),
-                HttpStatus.CREATED);
+        return ResponseEntity.ok(BaseResponse.of("팔로우가 완료되었습니다.", true, null));
     }
 
     @DeleteMapping
@@ -34,6 +32,6 @@ public class FollowController {
                                                        @RequestParam(name = "member") Long currentMemberNumber) {
         followService.unfollow(followRequest, currentMemberNumber);
 
-        return new ResponseEntity<>(BaseResponse.of("언팔로우", true, null), HttpStatus.OK);
+        return ResponseEntity.ok(BaseResponse.of("언팔로우가 완료되었습니다.", true, null));
     }
 }

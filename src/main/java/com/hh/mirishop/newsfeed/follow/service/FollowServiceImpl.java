@@ -1,14 +1,12 @@
 package com.hh.mirishop.newsfeed.follow.service;
 
-import com.hh.mirishop.newsfeed.follow.entity.Follow;
-import com.hh.mirishop.newsfeed.follow.repository.FollowRepository;
-import com.hh.mirishop.newsfeed.member.entity.Member;
+import com.hh.mirishop.newsfeed.client.UserFeignClient;
 import com.hh.mirishop.newsfeed.common.exception.ErrorCode;
 import com.hh.mirishop.newsfeed.common.exception.FollowException;
-import com.hh.mirishop.newsfeed.common.exception.MemberException;
 import com.hh.mirishop.newsfeed.follow.domain.FollowId;
 import com.hh.mirishop.newsfeed.follow.dto.FollowRequest;
-import com.hh.mirishop.newsfeed.member.repository.MemberRepository;
+import com.hh.mirishop.newsfeed.follow.entity.Follow;
+import com.hh.mirishop.newsfeed.follow.repository.FollowRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 public class FollowServiceImpl implements FollowService {
 
-    private final MemberRepository memberRepository;
+    private final UserFeignClient userFeignClient;
     private final FollowRepository followRepository;
 
     /*
@@ -28,24 +26,21 @@ public class FollowServiceImpl implements FollowService {
     @Override
     @Transactional
     public void follow(FollowRequest followRequest, Long currentMemberNumber) {
-        Long followMemberNumber = followRequest.getFollowingMemberNumber();
+        Long followingMemberNumber = followRequest.getFollowingMemberNumber();
         // 자기 자신 팔로우인지 확인
-        validateFollowSelf(followMemberNumber, currentMemberNumber);
+        validateFollowSelf(followingMemberNumber, currentMemberNumber);
 
         // 멤버 DB 검증
-        Member currentMember = memberRepository.findById(currentMemberNumber)
-                .orElseThrow(() -> new MemberException(ErrorCode.MEMBER_NOT_FOUND));
-
-        Member memberToFollow = memberRepository.findById(followMemberNumber)
-                .orElseThrow(() -> new MemberException(ErrorCode.MEMBER_NOT_FOUND));
+        userFeignClient.findMemberByNumber(currentMemberNumber);
+        userFeignClient.findMemberByNumber(followingMemberNumber);
 
         // 팔로우 가능한 멤버인지 검증
-        FollowId followId = new FollowId(currentMemberNumber, followMemberNumber);
+        FollowId followId = new FollowId(currentMemberNumber, followingMemberNumber);
         followRepository.findById(followId).ifPresent(f -> {
             throw new FollowException(ErrorCode.DUPLICATE_FOLLOW);
         });
 
-        Follow follow = new Follow(currentMember, memberToFollow);
+        Follow follow = new Follow(followId);
         followRepository.save(follow);
     }
 

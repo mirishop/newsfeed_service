@@ -1,6 +1,6 @@
 package com.hh.mirishop.newsfeed.common.aspect;
 
-import com.hh.mirishop.newsfeed.newsfeed.domain.ActivityType;
+import com.hh.mirishop.newsfeed.newsfeed.domain.NewsFeedType;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -36,7 +36,7 @@ public class MongoDBSoftDeleteAspect {
 
         if (args.length >= 1 && args[0] instanceof Long) {
             Query query = new Query(
-                    Criteria.where("activityId").is(args[0]).and("activityType").is(ActivityType.POST));
+                    Criteria.where("activityId").is(args[0]).and("activityType").is(NewsFeedType.POST));
             Update update = new Update().set("is_deleted", true);
             mongoTemplate.updateFirst(query, update, "activities");
         }
@@ -49,7 +49,7 @@ public class MongoDBSoftDeleteAspect {
 
         if (args.length >= 1 && args[0] instanceof Long) {
             Query query = new Query(
-                    Criteria.where("activityId").is(args[0]).and("activityType").is(ActivityType.COMMENT));
+                    Criteria.where("activityId").is(args[0]).and("activityType").is(NewsFeedType.COMMENT));
             Update update = new Update().set("is_deleted", true);
             mongoTemplate.updateFirst(query, update, "activities");
         }

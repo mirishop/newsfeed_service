@@ -1,13 +1,10 @@
 package com.hh.mirishop.newsfeed.follow.entity;
 
-import com.hh.mirishop.newsfeed.member.entity.Member;
 import com.hh.mirishop.newsfeed.follow.domain.FollowId;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -31,17 +28,7 @@ public class Follow {
     @CreatedDate
     private LocalDateTime createdAt;
 
-    @ManyToOne
-    @JoinColumn(name = "followerNumber", insertable = false, updatable = false)
-    private Member follower;
-
-    @ManyToOne
-    @JoinColumn(name = "followingNumber", insertable = false, updatable = false)
-    private Member following;
-
-    public Follow(Member follower, Member following) {
-        this.followId = new FollowId(follower.getNumber(), following.getNumber());
-        this.follower = follower;
-        this.following = following;
+    public Follow(FollowId followId) {
+        this.followId = followId;
     }
 }

@@ -1,6 +1,6 @@
 package com.hh.mirishop.newsfeed.newsfeed.entity;
 
-import com.hh.mirishop.newsfeed.newsfeed.domain.ActivityType;
+import com.hh.mirishop.newsfeed.newsfeed.domain.NewsFeedType;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
@@ -13,13 +13,13 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.time.LocalDateTime;
 
-@Document(collection = "Activities")
+@Document(collection = "newsfeeds")
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class Activity {
+public class NewsFeed {
 
     @Id
     private String id;
@@ -27,8 +27,8 @@ public class Activity {
     @Field("memberNumber")
     private Long memberNumber;
 
-    @Field("activityType")
-    private ActivityType activityType; // 활동 유형: post/comment/like
+    @Field("newsfeedType")
+    private NewsFeedType newsfeedType; // 활동 유형: post/comment/like
 
     @Field("activityId")
     private Long activityId; // 활동 고유 ID (게시글 ID, 댓글 ID, 좋아요 ID)
