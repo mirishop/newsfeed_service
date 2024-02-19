@@ -12,8 +12,8 @@ import java.util.Optional;
 public interface FollowRepository extends JpaRepository<Follow, FollowId> {
 
     // 특정 사용자가 팔로우하는 모든 사용자를 찾는 메소드
-    @Query("SELECT f FROM Follow f WHERE f.followId.followerNumber = :followerNumber")
-    List<Follow> findAllByFollowerId(@Param("followerNumber") Long followerNumber);
+    @Query("SELECT f.followId.followingNumber FROM Follow f WHERE f.followId.followerNumber = :followerNumber")
+    List<Long> findFollowingIdsByFollowerNumber(@Param("followerNumber") Long followerNumber);
 
     // 특정 사용자를 팔로우하는 모든 사용자를 찾는 메소드
     @Query("SELECT f FROM Follow f WHERE f.followId.followingNumber = :followingNumber")

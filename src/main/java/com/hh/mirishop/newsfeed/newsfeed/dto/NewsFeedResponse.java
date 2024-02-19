@@ -20,7 +20,7 @@ public class NewsFeedResponse {
     private LocalDateTime updatedAt;
     private Boolean isDeleted;
 
-    public static NewsFeedResponse fromActivity(NewsFeed newsfeed) {
+    public static NewsFeedResponse fromNewsFeed(NewsFeed newsfeed) {
         return new NewsFeedResponse(
                 newsfeed.getId(),
                 newsfeed.getMemberNumber(),

@@ -5,7 +5,6 @@ import com.hh.mirishop.newsfeed.newsfeed.dto.NewsFeedResponse;
 import com.hh.mirishop.newsfeed.newsfeed.service.NewsFeedQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -18,15 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class NewsFeedController {
 
-    private final NewsFeedQueryService newsFeedService;
+    private final NewsFeedQueryService newsFeedQueryService;
 
     @GetMapping("/my")
     public ResponseEntity<BaseResponse<Page<NewsFeedResponse>>> getMyNewsFeed(
             @RequestParam("page") int page,
             @RequestParam("size") int size,
             @RequestHeader(name = "X-MEMBER-NUMBER") Long currentMemberNumber) {
-        Page<NewsFeedResponse> newsFeed = newsFeedService.getNewsfeedForMember(page - 1, size, currentMemberNumber);
+        Page<NewsFeedResponse> newsFeed = newsFeedQueryService.getNewsfeedForMember(page - 1, size, currentMemberNumber);
 
-        return new ResponseEntity<>(BaseResponse.of("뉴스피드 조회 성공", true, newsFeed), HttpStatus.OK);
+        return ResponseEntity.ok(BaseResponse.of("뉴스피드 조회 성공", true, newsFeed));
     }
 }
