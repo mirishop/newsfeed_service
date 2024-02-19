@@ -1,15 +1,14 @@
 package com.hh.mirishop.newsfeed.newsfeed.service;
 
-import com.hh.mirishop.newsfeed.like.entity.Like;
-import com.hh.mirishop.newsfeed.auth.domain.UserDetailsImpl;
-import com.hh.mirishop.newsfeed.newsfeed.dto.ActivityResponse;
-import org.springframework.data.domain.Page;
+import com.hh.mirishop.newsfeed.newsfeed.dto.NewsFeedCreate;
+import com.hh.mirishop.newsfeed.newsfeed.dto.NewsFeedDelete;
+import com.hh.mirishop.newsfeed.newsfeed.dto.NewsFeedUpdate;
 
 public interface NewsFeedService {
 
-    Page<ActivityResponse> getNewsfeedForMember(int page, int size, Long currentMemberNumber);
+    void createNewsFeed(NewsFeedCreate newsfeedCreate);
 
-    void createActivityForLike(Like like);
+    void updateNewsFeed(NewsFeedUpdate newsFeedUpdate);
 
-    void deleteActivityForUnlike(Like like);
+    void deleteNewsFeed(NewsFeedDelete newsFeedDelete);
 }

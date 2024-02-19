@@ -1,8 +1,7 @@
 package com.hh.mirishop.newsfeed.newsfeed.dto;
 
-import com.hh.mirishop.newsfeed.newsfeed.entity.NewsFeed;
 import com.hh.mirishop.newsfeed.newsfeed.domain.NewsFeedType;
-import lombok.AllArgsConstructor;
+import com.hh.mirishop.newsfeed.newsfeed.entity.NewsFeed;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -18,6 +17,7 @@ public class NewsFeedResponse {
     private Long activityId;
     private Long targetPostId;
     private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
     private Boolean isDeleted;
 
     public static NewsFeedResponse fromActivity(NewsFeed newsfeed) {
@@ -28,6 +28,7 @@ public class NewsFeedResponse {
                 newsfeed.getActivityId(),
                 newsfeed.getTargetPostId(),
                 newsfeed.getCreatedAt(),
+                newsfeed.getUpdatedAt(),
                 newsfeed.getIsDeleted()
         );
     }
