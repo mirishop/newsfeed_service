@@ -23,6 +23,12 @@ public class NewsFeedQueryServiceImpl implements NewsFeedQueryService {
     private final FollowService followService;
     private final MongoTemplate mongoTemplate;
 
+    /**
+     * 1. 팔로잉 유저 받아오고,
+     * 2. 쿼리문에서 MemberNumber로 팔로잉 유저와 본인의 글을 불러오는 메소드
+     *
+     * page와 size는 controller에서 조절하고 최신 순으로 정렬
+     */
     @Override
     @Transactional(readOnly = true)
     public Page<NewsFeedResponse> getNewsfeedForMember(int page, int size, Long currentMemberNumber) {

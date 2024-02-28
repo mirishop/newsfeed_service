@@ -23,9 +23,9 @@ public class FollowServiceImpl implements FollowService {
     private final UserFeignClient userFeignClient;
     private final FollowRepository followRepository;
 
-    /*
-    팔로우
-    */
+    /**
+     * 팔로우 유저 정보를 받아 팔로우를 만드는 메소드
+     */
     @Override
     @Transactional
     public void follow(FollowRequest followRequest, Long currentMemberNumber) {
@@ -47,6 +47,9 @@ public class FollowServiceImpl implements FollowService {
         followRepository.save(follow);
     }
 
+    /**
+     * 팔로우 유저 정보를 받아 팔로우를 삭제하는 메소드
+     */
     @Override
     @Transactional
     public void unfollow(FollowRequest followRequest, Long currentMemberNumber) {
@@ -59,6 +62,9 @@ public class FollowServiceImpl implements FollowService {
         followRepository.delete(follow);
     }
 
+    /**
+     * 유저가 팔로우한 모든 팔로잉들 조회하는 메소드
+     */
     @Override
     @Transactional(readOnly = true)
     public FollowingIdsResponse getFollowingIdsByMemberNumber(Long currentMemberNumber) {

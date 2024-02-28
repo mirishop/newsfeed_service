@@ -6,8 +6,4 @@ import org.springframework.data.domain.Page;
 public interface NewsFeedQueryService {
 
     Page<NewsFeedResponse> getNewsfeedForMember(int page, int size, Long currentMemberNumber);
-
-//    void createActivityForLike(Like like);
-//
-//    void deleteActivityForUnlike(Like like);
 }

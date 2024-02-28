@@ -19,6 +19,10 @@ public class NewsFeedController {
 
     private final NewsFeedQueryService newsFeedQueryService;
 
+    /**
+     * 나의 뉴스피드 정보를 불러올 수 있습니다.
+     * Page객체로 불러옵니다.
+     */
     @GetMapping("/my")
     public ResponseEntity<BaseResponse<Page<NewsFeedResponse>>> getMyNewsFeed(
             @RequestParam("page") int page,

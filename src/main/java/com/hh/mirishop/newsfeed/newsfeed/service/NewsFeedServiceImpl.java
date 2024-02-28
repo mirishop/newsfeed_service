@@ -17,32 +17,32 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class NewsFeedServiceImpl implements NewsFeedService {
 
+    public static final String NEWSFEEDS_COLLECTION = "newsfeeds";
+
     private final MongoTemplate mongoTemplate;
 
-    /*
-    뉴스피드 저장
-    */
+    /**
+     * 뉴스피드 생성 정보를 받아 생성하는 메소드
+     */
     @Override
     @Transactional
     public void createNewsFeed(NewsFeedCreate newsfeedCreate) {
+        NewsFeed newsFeed = NewsFeed.builder()
+                .memberNumber(newsfeedCreate.getMemberNumber())
+                .newsfeedType(NewsFeedType.of(newsfeedCreate.getNewsFeedType()))
+                .activityId(newsfeedCreate.getActivityId())
+                .targetPostId(newsfeedCreate.getTargetPostId())
+                .createdAt(newsfeedCreate.getCreatedAt())
+                .updatedAt(newsfeedCreate.getUpdatedAt())
+                .isDeleted(newsfeedCreate.getIsDeleted())
+                .build();
 
-        NewsFeed newsFeed =
-                NewsFeed.builder()
-                        .memberNumber(newsfeedCreate.getMemberNumber())
-                        .newsfeedType(NewsFeedType.of(newsfeedCreate.getNewsFeedType()))
-                        .activityId(newsfeedCreate.getActivityId())
-                        .targetPostId(newsfeedCreate.getTargetPostId())
-                        .createdAt(newsfeedCreate.getCreatedAt())
-                        .updatedAt(newsfeedCreate.getUpdatedAt())
-                        .isDeleted(newsfeedCreate.getIsDeleted())
-                        .build();
-
-        mongoTemplate.save(newsFeed,"newsfeeds");
+        mongoTemplate.save(newsFeed, NEWSFEEDS_COLLECTION);
     }
 
-    /*
-    뉴스피드 수정
-    */
+    /**
+     * 뉴스피드 수정 정보를 받아 수정하는 메소드
+     */
     @Override
     public void updateNewsFeed(NewsFeedUpdate newsFeedUpdate) {
         Query query = new Query(Criteria.where("activityId").is(newsFeedUpdate.getActivityId())
@@ -50,9 +50,12 @@ public class NewsFeedServiceImpl implements NewsFeedService {
         Update update = new Update();
         update.set("updatedAt", newsFeedUpdate.getUpdatedAt());
 
-        mongoTemplate.updateFirst(query, update, "newsfeeds");
+        mongoTemplate.updateFirst(query, update, NEWSFEEDS_COLLECTION);
     }
 
+    /**
+     * 뉴스피드 삭제 정보를 받아 삭제하는 메소드
+     */
     @Override
     public void deleteNewsFeed(NewsFeedDelete newsFeedDelete) {
         Query query = new Query(Criteria.where("activityId").is(newsFeedDelete.getActivityId())
@@ -60,6 +63,6 @@ public class NewsFeedServiceImpl implements NewsFeedService {
         Update update = new Update();
         update.set("is_deleted", true);
 
-        mongoTemplate.updateFirst(query, update, "newsfeeds");
+        mongoTemplate.updateFirst(query, update, NEWSFEEDS_COLLECTION);
     }
 }

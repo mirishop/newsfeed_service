@@ -19,6 +19,9 @@ public class FollowController {
 
     private final FollowService followService;
 
+    /**
+     * FollowRequest로 팔로우 유저 아이디를 받아 팔로우를 생성합니다.
+     */
     @PostMapping
     public ResponseEntity<BaseResponse<Void>> follow(@RequestBody final FollowRequest followRequest,
                                                      @RequestHeader(name = "X-MEMBER-NUMBER") Long currentMemberNumber) {
@@ -27,6 +30,9 @@ public class FollowController {
         return ResponseEntity.ok(BaseResponse.of("팔로우가 완료되었습니다.", true, null));
     }
 
+    /**
+     * FollowRequest로 팔로우 유저 아이디를 받아 팔로우를 삭제합니다.
+     */
     @DeleteMapping
     public ResponseEntity<BaseResponse<Void>> unfollow(@RequestBody final FollowRequest followRequest,
                                                        @RequestHeader(name = "X-MEMBER-NUMBER") Long currentMemberNumber) {
